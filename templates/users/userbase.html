@@ -1,0 +1,178 @@
+{% extends 'users/userhomepage.html' %}
+{% block contents %}
+
+<style>
+    /* Button Grid for Dashboard */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        padding: 20px 0;
+        margin-top: 40px;
+        animation: fadeInUp 1.2s ease-out;
+    }
+
+    .glow-card-btn {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        background: rgba(16, 20, 38, 0.6);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        color: #fff;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .glow-card-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: radial-gradient(circle, rgba(0, 243, 255, 0.1) 0%, transparent 70%);
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        transition: width 0.6s ease, height 0.6s ease;
+        z-index: 0;
+    }
+
+    .glow-card-btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .glow-card-btn:hover {
+        transform: translateY(-10px) scale(1.03);
+        border-color: rgba(0, 255, 170, 0.3);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 255, 170, 0.15) inset;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .glow-card-btn i {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        color: var(--text-muted);
+        transition: all 0.4s ease;
+        z-index: 1;
+        filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    }
+
+    .glow-card-btn:hover i {
+        color: #00ffaa;
+        filter: drop-shadow(0 0 15px rgba(0, 255, 170, 0.6));
+        transform: scale(1.15);
+    }
+
+    .glow-card-btn .card-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        z-index: 1;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+    }
+
+    .glow-card-btn .card-desc {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        z-index: 1;
+        text-align: center;
+        opacity: 0.8;
+    }
+
+    /* specific colors */
+    .glow-card-btn.nav-dataset:hover i { color: #bc13fe; filter: drop-shadow(0 0 15px rgba(188, 19, 254, 0.6)); }
+    .glow-card-btn.nav-dataset:hover { border-color: rgba(188, 19, 254, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 25px rgba(188, 19, 254, 0.15) inset; }
+
+    .glow-card-btn.nav-ml:hover i { color: #00f3ff; filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.6)); }
+    .glow-card-btn.nav-ml:hover { border-color: rgba(0, 243, 255, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 25px rgba(0, 243, 255, 0.15) inset; }
+
+    .glow-card-btn.nav-matrices:hover i { color: #ff3366; filter: drop-shadow(0 0 15px rgba(255, 51, 102, 0.6)); }
+    .glow-card-btn.nav-matrices:hover { border-color: rgba(255, 51, 102, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 25px rgba(255, 51, 102, 0.15) inset; }
+
+    .glow-card-btn.nav-predict:hover i { color: #ffcc00; filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.6)); }
+    .glow-card-btn.nav-predict:hover { border-color: rgba(255, 204, 0, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 25px rgba(255, 204, 0, 0.15) inset; }
+
+    .glow-card-btn.nav-logout:hover i { color: #ff3333; filter: drop-shadow(0 0 15px rgba(255, 51, 51, 0.6)); }
+    .glow-card-btn.nav-logout:hover { border-color: rgba(255, 51, 51, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 25px rgba(255, 51, 51, 0.15) inset; }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="content">
+    <div style="text-align: center; margin-bottom: 20px; animation: fadeInUp 0.8s ease-out;">
+
+        <!-- Dashboard Welcome Banner Image -->
+        <div style="margin-bottom: 24px;">
+            <img src="/media/sleepless-man-face-cartoon-character-suffers-from-insomnia-guy-with-open-eyes-darkness-night-.jpg"
+                 alt="Sleep Disorder Dashboard"
+                 style="width: 100%; max-width: 600px; height: 200px; object-fit: cover;
+                        border-radius: 18px;
+                        border: 1px solid rgba(0, 255, 170, 0.18);
+                        box-shadow: 0 0 30px rgba(0, 255, 170, 0.1), 0 15px 40px rgba(0,0,0,0.5);
+                        filter: brightness(0.88) saturate(0.85);"
+                 onerror="this.style.display='none'">
+        </div>
+
+        <h1 class="page-title" style="font-size: 3rem; margin-bottom: 15px;"><i class="fa-solid fa-hand-sparkles" style="color: #00ffaa;"></i> Welcome, <span style="background: linear-gradient(to right, #00ffaa, var(--primary-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ name }}</span></h1>
+        <p style="color: var(--text-muted); font-size: 1.2rem;">ID: <span style="color: #fff; font-family: monospace;">{{ username }}</span> | Email: <span style="color: #fff; font-family: monospace;">{{ email }}</span></p>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Home -->
+        <a href="{% url 'UserHome' %}" class="glow-card-btn">
+            <i class="fa-solid fa-house-user"></i>
+            <span class="card-title">Dashboard Home</span>
+            <span class="card-desc">Return to the main portal view</span>
+        </a>
+
+        <!-- Dataset -->
+        <a href="{% url 'datasetview' %}" class="glow-card-btn nav-dataset">
+            <i class="fa-solid fa-database"></i>
+            <span class="card-title">View Dataset</span>
+            <span class="card-desc">Browse uploaded sleep data records</span>
+        </a>
+
+        <!-- Machine Learning -->
+        <a href="{% url 'modeleval' %}" class="glow-card-btn nav-ml">
+            <i class="fa-solid fa-microchip"></i>
+            <span class="card-title">Machine Learning</span>
+            <span class="card-desc">Analyze and train model configurations</span>
+        </a>
+
+        <!-- Matrices -->
+        <a href="{% url 'modelmatrices' %}" class="glow-card-btn nav-matrices">
+            <i class="fa-solid fa-chart-line"></i>
+            <span class="card-title">Algorithm Matrices</span>
+            <span class="card-desc">View confusion matrices and charts</span>
+        </a>
+
+        <!-- Prediction -->
+        <a href="{% url 'modelprediction' %}" class="glow-card-btn nav-predict">
+            <i class="fa-solid fa-brain"></i>
+            <span class="card-title">Run Prediction</span>
+            <span class="card-desc">Predict sleep disorders using patient data</span>
+        </a>
+
+        <!-- Logout -->
+        <a href="{% url 'userLogout' %}" class="glow-card-btn nav-logout">
+            <i class="fa-solid fa-power-off"></i>
+            <span class="card-title">End Session</span>
+            <span class="card-desc">Securely logout from the portal</span>
+        </a>
+    </div>
+</div>
+{% endblock %}

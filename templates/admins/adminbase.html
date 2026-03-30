@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sleep Disorder - Admin</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    {% load static %}
+    <style>
+        :root {
+            --primary-glow: #00f3ff;
+            --secondary-glow: #bc13fe;
+            --bg-grad-start: #060b19;
+            --bg-grad-mid: #160e28;
+            --bg-grad-end: #071b2d;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-grad-start) 0%, var(--bg-grad-mid) 50%, var(--bg-grad-end) 100%);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+            display: flex;
+        }
+
+        /* ===== Background Image Overlay ===== */
+        .bg-image-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('/static/assets/img/sleep_bg_overlay.png') center center / cover no-repeat;
+            opacity: 0.1; z-index: 0; pointer-events: none;
+        }
+
+        /* ===== Glowing Orbs ===== */
+        .glow-orbs { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: hidden; }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); animation: orbFloat 20s ease-in-out infinite alternate; }
+        .glow-orb-1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,0,122,0.06) 0%, transparent 70%); top: 10%; left: -5%; animation-duration: 25s; }
+        .glow-orb-2 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(188,19,254,0.05) 0%, transparent 70%); bottom: 20%; right: -8%; animation-duration: 30s; animation-delay: 5s; }
+        .glow-orb-3 { width: 250px; height: 250px; background: radial-gradient(circle, rgba(0,243,255,0.05) 0%, transparent 70%); top: 60%; left: 40%; animation-duration: 22s; animation-delay: 10s; }
+        @keyframes orbFloat {
+            0% { transform: translate(0,0) scale(1); }
+            33% { transform: translate(30px,-20px) scale(1.05); }
+            66% { transform: translate(-20px,15px) scale(0.95); }
+            100% { transform: translate(10px,-30px) scale(1.02); }
+        }
+
+        /* ===== EEG Brainwave Lines ===== */
+        .eeg-waves { position: fixed; bottom: 0; left: 0; width: 200%; height: 200px; z-index: 1; pointer-events: none; opacity: 0.15; }
+        .eeg-wave { position: absolute; width: 100%; height: 100%; }
+        .eeg-wave svg { width: 100%; height: 100%; }
+        .eeg-wave-1 { animation: eegScroll 18s linear infinite; bottom: 20px; }
+        .eeg-wave-2 { animation: eegScroll 25s linear infinite reverse; bottom: 60px; opacity: 0.6; }
+        @keyframes eegScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* ===== Heartbeat ECG Line ===== */
+        .heartbeat-line { position: fixed; top: 50%; left: 0; width: 200%; height: 80px; z-index: 1; pointer-events: none; opacity: 0.08; animation: heartbeatScroll 12s linear infinite; }
+        .heartbeat-line svg { width: 100%; height: 100%; }
+        @keyframes heartbeatScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* ===== Floating Sleep Icons ===== */
+        .sleep-icons-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; overflow: hidden; }
+        .sleep-icon { position: absolute; font-size: 1.5rem; opacity: 0.05; color: #a78bfa; animation: floatUpIcon linear infinite; }
+        .sleep-icon:nth-child(1) { left: 10%; animation-duration: 22s; font-size: 2rem; }
+        .sleep-icon:nth-child(2) { left: 30%; animation-duration: 28s; animation-delay: 3s; font-size: 1.2rem; }
+        .sleep-icon:nth-child(3) { left: 50%; animation-duration: 20s; animation-delay: 6s; font-size: 1.8rem; color: #67e8f9; }
+        .sleep-icon:nth-child(4) { left: 70%; animation-duration: 25s; animation-delay: 2s; color: #f472b6; }
+        .sleep-icon:nth-child(5) { left: 85%; animation-duration: 30s; animation-delay: 8s; font-size: 1rem; color: #c084fc; }
+        @keyframes floatUpIcon {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.07; } 90% { opacity: 0.05; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Dashboard specific: no big moon, just particles */
+        #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+
+        .stars-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                              radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), rgba(0,0,0,0)),
+                              radial-gradient(1px 1px at 120px 90px, rgba(200,200,255,0.9), rgba(0,0,0,0));
+            background-repeat: repeat; background-size: 200px 200px;
+            animation: twinkle 5s linear infinite alternate; opacity: 0.2; z-index: 1;
+        }
+        @keyframes twinkle { 0% { opacity: 0.1; } 50% { opacity: 0.3; } 100% { opacity: 0.4; } }
+
+        /* Navbar Styling */
+        .top-navbar {
+            background: rgba(16, 20, 38, 0.45);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 15px 30px; position: fixed; width: 100%; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .top-navbar .navbar-brand {
+            color: #fff; font-weight: 800; font-size: 1.5rem; letter-spacing: 1px;
+            background: linear-gradient(to right, #ff007a, var(--primary-glow));
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 0, 122, 0.3);
+            text-decoration: none; display: flex; align-items: center; gap: 10px;
+        }
+        .nav-menu { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
+        .nav-menu .nav-link {
+            color: var(--text-muted); padding: 10px 15px; border-radius: 12px;
+            transition: all 0.3s ease; font-weight: 600;
+            display: flex; align-items: center; gap: 8px; text-decoration: none;
+        }
+        .nav-menu .nav-link:hover {
+            background: rgba(255, 0, 122, 0.1); color: #ff007a;
+            box-shadow: 0 0 15px rgba(255, 0, 122, 0.15);
+        }
+
+        .content {
+            padding: 100px 40px 40px 40px;
+            width: 100%; position: relative; z-index: 10;
+        }
+
+        .glass-card {
+            background: rgba(16, 20, 38, 0.6);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            padding: 30px; color: #fff; margin-top: 20px; color: #e2e8f0;
+        }
+
+        h1, h2, h3, h4, h5 { color: #fff; }
+    </style>
+</head>
+<body>
+
+    <!-- Background Layers -->
+    <div class="bg-image-overlay"></div>
+    <div class="glow-orbs">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
+    </div>
+    <div id="particles-js"></div>
+    <div class="stars-overlay"></div>
+
+    <!-- Floating Sleep Icons -->
+    <div class="sleep-icons-container">
+        <i class="sleep-icon fa-solid fa-moon"></i>
+        <i class="sleep-icon fa-solid fa-brain"></i>
+        <i class="sleep-icon fa-solid fa-heart-pulse"></i>
+        <i class="sleep-icon fa-solid fa-wave-square"></i>
+        <i class="sleep-icon fa-solid fa-bed"></i>
+    </div>
+
+    <!-- EEG Brainwave Lines -->
+    <div class="eeg-waves">
+        <div class="eeg-wave eeg-wave-1">
+            <svg viewBox="0 0 2400 200" preserveAspectRatio="none">
+                <path d="M0,100 L50,100 L60,40 L70,160 L80,80 L90,120 L100,100 L200,100 L210,30 L220,170 L230,60 L240,140 L250,100 L350,100 L360,50 L370,150 L380,70 L390,130 L400,100 L500,100 L510,40 L520,160 L530,80 L540,120 L550,100 L650,100 L660,30 L670,170 L680,60 L690,140 L700,100 L800,100 L810,50 L820,150 L830,70 L840,130 L850,100 L950,100 L960,40 L970,160 L980,80 L990,120 L1000,100 L1100,100 L1110,30 L1120,170 L1130,60 L1140,140 L1150,100 L1200,100 L1250,100 L1260,40 L1270,160 L1280,80 L1290,120 L1300,100 L1400,100 L1410,30 L1420,170 L1430,60 L1440,140 L1450,100 L1550,100 L1560,50 L1570,150 L1580,70 L1590,130 L1600,100 L1700,100 L1710,40 L1720,160 L1730,80 L1740,120 L1750,100 L1850,100 L1860,30 L1870,170 L1880,60 L1890,140 L1900,100 L2000,100 L2010,50 L2020,150 L2030,70 L2040,130 L2050,100 L2150,100 L2160,40 L2170,160 L2180,80 L2190,120 L2200,100 L2300,100 L2310,30 L2320,170 L2330,60 L2340,140 L2350,100 L2400,100" fill="none" stroke="rgba(255, 0, 122, 0.35)" stroke-width="1.5"/>
+            </svg>
+        </div>
+        <div class="eeg-wave eeg-wave-2">
+            <svg viewBox="0 0 2400 200" preserveAspectRatio="none">
+                <path d="M0,100 L80,100 L90,60 L100,140 L110,90 L120,110 L130,100 L230,100 L240,50 L250,150 L260,75 L270,125 L280,100 L380,100 L390,45 L400,155 L410,70 L420,130 L430,100 L530,100 L540,60 L550,140 L560,85 L570,115 L580,100 L680,100 L690,55 L700,145 L710,80 L720,120 L730,100 L830,100 L840,50 L850,150 L860,75 L870,125 L880,100 L980,100 L990,45 L1000,155 L1010,70 L1020,130 L1030,100 L1130,100 L1140,60 L1150,140 L1160,85 L1170,115 L1180,100 L1280,100 L1290,55 L1300,145 L1310,80 L1320,120 L1330,100 L1430,100 L1440,50 L1450,150 L1460,75 L1470,125 L1480,100 L1580,100 L1590,45 L1600,155 L1610,70 L1620,130 L1630,100 L1730,100 L1740,60 L1750,140 L1760,85 L1770,115 L1780,100 L1880,100 L1890,55 L1900,145 L1910,80 L1920,120 L1930,100 L2030,100 L2040,50 L2050,150 L2060,75 L2070,125 L2080,100 L2180,100 L2190,45 L2200,155 L2210,70 L2220,130 L2230,100 L2330,100 L2340,60 L2350,140 L2360,85 L2370,115 L2380,100 L2400,100" fill="none" stroke="rgba(188, 19, 254, 0.3)" stroke-width="1"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Heartbeat ECG Line -->
+    <div class="heartbeat-line">
+        <svg viewBox="0 0 2400 80" preserveAspectRatio="none">
+            <path d="M0,40 L100,40 L110,40 L120,10 L130,70 L140,25 L150,55 L160,40 L300,40 L310,40 L320,10 L330,70 L340,25 L350,55 L360,40 L500,40 L510,40 L520,10 L530,70 L540,25 L550,55 L560,40 L700,40 L710,40 L720,10 L730,70 L740,25 L750,55 L760,40 L900,40 L910,40 L920,10 L930,70 L940,25 L950,55 L960,40 L1100,40 L1110,40 L1120,10 L1130,70 L1140,25 L1150,55 L1160,40 L1300,40 L1310,40 L1320,10 L1330,70 L1340,25 L1350,55 L1360,40 L1500,40 L1510,40 L1520,10 L1530,70 L1540,25 L1550,55 L1560,40 L1700,40 L1710,40 L1720,10 L1730,70 L1740,25 L1750,55 L1760,40 L1900,40 L1910,40 L1920,10 L1930,70 L1940,25 L1950,55 L1960,40 L2100,40 L2110,40 L2120,10 L2130,70 L2140,25 L2150,55 L2160,40 L2300,40 L2310,40 L2320,10 L2330,70 L2340,25 L2350,55 L2360,40 L2400,40" fill="none" stroke="rgba(255, 0, 122, 0.25)" stroke-width="1.5"/>
+        </svg>
+    </div>
+
+    <nav class="top-navbar">
+        <a class="navbar-brand" href="{% url 'adminhome' %}"><i class="fa-solid fa-user-shield text-white"></i> Admin Panel</a>
+        <ul class="nav-menu">
+            <li><a class="nav-link" href="{% url 'adminhome' %}"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+            <li><a class="nav-link" href="{% url 'activateduser' %}"><i class="fa-solid fa-users"></i> Manage Users</a></li>
+            <li><a class="nav-link" href="{% url 'adminlogout' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+        </ul>
+    </nav>
+    
+    {% block contents %}
+    {% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            particlesJS("particles-js", {
+                "particles": {
+                    "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": ["#ff007a", "#bc13fe", "#4d4dff"] },
+                    "shape": { "type": ["circle", "triangle"] },
+                    "opacity": { "value": 0.5, "random": true },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": { "enable": true, "distance": 150, "color": "#ff007a", "opacity": 0.2, "width": 1 },
+                    "move": { "enable": true, "speed": 1 }
+                },
+                "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true } },
+                "retina_detect": true
+            });
+        });
+    </script>
+</body>
+</html>

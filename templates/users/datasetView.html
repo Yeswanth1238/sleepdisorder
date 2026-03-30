@@ -1,0 +1,38 @@
+{% extends 'users/userhomepage.html' %}
+{% load static %}
+{% block contents %}
+<style>
+    .bg-image-overlay {
+        background: url('{% static "assets/img/sleep_dataset_1773590924518.png" %}') center center / cover no-repeat !important;
+        opacity: 0.25 !important;
+    }
+</style>
+<div class="content">
+    <div class="glass-card mb-4" style="max-width: 1200px; margin: 20px auto;">
+
+        <!-- Dataset Section Image -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="/media/Sleep-Hub-Pic.webp"
+                 alt="Sleep Disorder Dataset"
+                 style="width: 100%; max-width: 700px; height: 200px; object-fit: cover;
+                        border-radius: 14px;
+                        border: 1px solid rgba(188, 19, 254, 0.2);
+                        box-shadow: 0 0 25px rgba(188, 19, 254, 0.1), 0 10px 30px rgba(0,0,0,0.45);
+                        filter: brightness(0.88) saturate(0.85);"
+                 onerror="this.style.display='none'">
+        </div>
+
+        <h2 class="text-center page-title"><i class="fa-solid fa-database"></i> Sleep Disorder Dataset</h2>
+        <div class="table-responsive mt-4" style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3);">
+            <style>
+                .dataframe { width: 100%; margin-bottom: 0; color: #fff; text-align: left; }
+                .dataframe th { background: rgba(0, 243, 255, 0.15) !important; border: 1px solid rgba(255,255,255,0.1); padding: 15px; color: var(--primary-glow); font-weight: 600; white-space: nowrap; }
+                .dataframe td { border: 1px solid rgba(255,255,255,0.05); padding: 12px; }
+                .dataframe tr:hover { background: rgba(255,255,255,0.05); }
+                .dataframe tbody tr:nth-of-type(odd) { background-color: rgba(0,0,0,0.2); }
+            </style>
+            {{ data | safe }}
+        </div>
+    </div>
+</div>
+{% endblock %}

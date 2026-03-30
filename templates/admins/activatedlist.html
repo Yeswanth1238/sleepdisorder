@@ -1,0 +1,93 @@
+ {% extends 'admins/adminbase.html' %}
+{% load static %}
+
+{% block contents %}
+
+<style>
+    .bg-image-overlay {
+        background: url('{% static "assets/img/sleep_activated_list_1773590863506.png" %}') center center / cover no-repeat !important;
+        opacity: 0.25 !important;
+    }
+</style>
+
+<div class="content d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="glass-card" style="width: 100%; max-width: 1000px;">
+        <h2 class="text-center page-title"><i class="fa-solid fa-users-gear"></i> Manage System Users</h2>
+
+        <div id="message-container">
+            {% for m in messages %}
+                <div class="alert alert-success" style="background: rgba(0,255,170,0.2); border:1px solid #00ffaa; color:#ccffee; margin-bottom:20px;">
+                    <i class="fa-solid fa-check-circle"></i> {{ m.message }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="table-responsive mt-4" style="border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.3);">
+            <table class="table text-left" style="color:#fff; margin-bottom:0;">
+                <thead style="background:rgba(255,0,122,0.15); color:#ff007a;">
+                    <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phonenumber }}</td>
+
+                        <td>
+                            {% if user.is_active %}
+
+                                <span style="color:#00ffaa;">
+                                    <i class="fa-solid fa-circle-check"></i> Active
+                                </span>
+
+                                <a href="{% url 'blockuser' user.id %}" 
+                                   class="btn btn-sm"
+                                   style="background:rgba(255,0,0,0.2); color:#ffcccc; border:1px solid red;">
+                                   <i class="fa-solid fa-ban"></i> Block
+                                </a>
+
+                            {% else %}
+
+                                <a href="{% url 'useractivate' user.id %}" 
+                                   class="btn btn-sm"
+                                   style="background:rgba(0,255,170,0.2); color:#ccffee; border:1px solid #00ffaa;">
+                                   <i class="fa-solid fa-check"></i> Activate Account
+                                </a>
+
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4">
+                            No users registered in the system yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const msg = document.getElementById('message-container');
+        if(msg) msg.innerHTML='';
+    },3000);
+});
+</script>
+
+{% endblock %}

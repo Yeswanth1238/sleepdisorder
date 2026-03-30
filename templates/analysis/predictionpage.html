@@ -1,0 +1,72 @@
+{% extends 'users/userhomepage.html' %}
+{% load static %}
+{% block contents %}
+<style>
+    .bg-image-overlay {
+        background: url('{% static "assets/img/sleep_prediction_1773590204523.png" %}') center center / cover no-repeat !important;
+        opacity: 0.25 !important;
+    }
+</style>
+<div class="content d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="glass-card" style="width: 100%; max-width: 800px; box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);">
+
+        <!-- Prediction Page Image -->
+        <div style="text-align: center; margin-bottom: 22px;">
+            <img src="/media/bd959d2bb15074b6baada6abc0b6e44d.jpg"
+                 alt="Sleep Disorder Prediction"
+                 style="width: 200%; max-width: 700px; height: 300px; object-fit: cover;
+                        border-radius: 14px;
+                        border: 1px solid rgba(0, 255, 170, 0.2);
+                        box-shadow: 0 0 25px rgba(0, 255, 170, 0.1), 0 10px 30px rgba(0,0,0,0.45);
+                        filter: brightness(0.88) saturate(0.85);"
+                 onerror="this.style.display='none'">
+        </div>
+
+        <h2 class="text-center page-title"><i class="fa-solid fa-brain"></i> Sleep Disorder Prediction</h2>
+        <p class="text-center" style="color: var(--text-muted); margin-bottom: 30px;">Enter patient physiological metrics to generate an AI disorder prediction</p>
+        
+        {% if pred %}
+        <div class="text-center mb-4">
+            <h3 style="color: #00ffaa; text-shadow: 0 0 15px rgba(0, 255, 170, 0.4);">
+                <i class="fa-solid fa-stethoscope"></i> Prediction: {{ pred }} <span style="font-size: 0.85em; color: #00d2ff;">(Accuracy: {{ accuracy }})</span>
+            </h3>
+        </div>
+        {% endif %}
+        
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label for="age1"><i class="fa-solid fa-clipboard-user"></i> Age</label>
+                        <input type="text" class="form-control text-center" name="age" id="age1" placeholder="Enter Age" required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="age2"><i class="fa-solid fa-clock"></i> Sleep Duration</label>
+                        <input type="text" class="form-control text-center" name="sleep" id="age2" placeholder="e.g. 7.5" required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="activity"><i class="fa-solid fa-person-running"></i> Physical Activity Level</label>
+                        <input type="text" class="form-control text-center" name="activity" id="activity" placeholder="e.g. 60" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label for="heartrate"><i class="fa-solid fa-heart-pulse"></i> Heart Rate</label>
+                        <input type="text" class="form-control text-center" name="heartrate" id="heartrate" placeholder="e.g. 72" required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="bloodpressure"><i class="fa-solid fa-droplet"></i> Blood Pressure</label>
+                        <input type="text" class="form-control text-center" name="bloodpressure" id="bloodpressure" placeholder="e.g. 120/80" required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="dailysteps"><i class="fa-solid fa-shoe-prints"></i> Daily Steps</label>
+                        <input type="text" class="form-control text-center" name="dailysteps" id="dailysteps" placeholder="e.g. 8000" required>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block w-100 mt-4 py-3" style="font-size: 1.1rem; letter-spacing: 1px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Run AI Prediction</button> 
+        </form>
+    </div>
+</div>
+{% endblock %}

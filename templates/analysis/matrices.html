@@ -1,0 +1,43 @@
+{% extends 'users/userhomepage.html' %}
+{% block contents %}
+{% load static %}
+<style>
+    .bg-image-overlay {
+        background: url('{% static "assets/img/sleep_matrices_1773590889530.png" %}') center center / cover no-repeat !important;
+        opacity: 0.25 !important;
+    }
+</style>
+<div class="content">
+    <div class="glass-card mb-4" style="max-width: 1200px; margin: 20px auto;">
+        <h2 class="text-center page-title"><i class="fa-solid fa-chart-line"></i> Model Evaluation Matrices</h2>
+        <p class="text-center" style="color: var(--text-muted); margin-bottom: 40px; font-size: 1.1rem;">Confusion Matrices generated during the machine learning model training phase.</p>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="glass-card p-4 text-center h-100" style="margin-top:0; transition: all 0.4s ease;">
+                    <h4 style="color: var(--primary-glow); margin-bottom: 20px; font-weight: 700;"><i class="fa-solid fa-microchip"></i> Support Vector Classifier</h4>
+                    <img src="{% static 'assets/img/svc.png' %}" alt="Confusion Matrix for SVC" style="max-width: 100%; border-radius: 10px; border: 2px solid rgba(0, 243, 255, 0.2); transition: all 0.4s ease;" onmouseover="this.style.boxShadow='0 0 20px rgba(0, 243, 255, 0.5)';" onmouseout="this.style.boxShadow='none';">
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="glass-card p-4 text-center h-100" style="margin-top:0;">
+                    <h4 style="color: #00ffaa; margin-bottom: 20px; font-weight: 700;"><i class="fa-solid fa-microchip"></i> Random Forest</h4>
+                    <img src="{% static 'rf.png' %}" alt="Confusion Matrix for Random Forest" style="max-width: 100%; border-radius: 10px; border: 2px solid rgba(0, 255, 170, 0.2); transition: all 0.4s ease;" onmouseover="this.style.boxShadow='0 0 20px rgba(0, 255, 170, 0.5)';" onmouseout="this.style.boxShadow='none';">
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="glass-card p-4 text-center h-100" style="margin-top:0;">
+                    <h4 style="color: #bc13fe; margin-bottom: 20px; font-weight: 700;"><i class="fa-solid fa-microchip"></i> K-Nearest Neighbors</h4>
+                    <img src="{% static 'assets/img/knn.png' %}" alt="Confusion Matrix for KNN" style="max-width: 100%; border-radius: 10px; border: 2px solid rgba(188, 19, 254, 0.2); transition: all 0.4s ease;" onmouseover="this.style.boxShadow='0 0 20px rgba(188, 19, 254, 0.5)';" onmouseout="this.style.boxShadow='none';">
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="glass-card p-4 text-center h-100" style="margin-top:0;">
+                    <h4 style="color: #ff007a; margin-bottom: 20px; font-weight: 700;"><i class="fa-solid fa-microchip"></i> Decision Tree</h4>
+                    <img src="{% static 'assets/img/dt.png' %}" alt="Confusion Matrix for Decision Tree" style="max-width: 100%; border-radius: 10px; border: 2px solid rgba(255, 0, 122, 0.2); transition: all 0.4s ease;" onmouseover="this.style.boxShadow='0 0 20px rgba(255, 0, 122, 0.5)';" onmouseout="this.style.boxShadow='none';">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

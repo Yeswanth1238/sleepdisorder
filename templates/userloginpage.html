@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+<style>
+    .bg-image-overlay {
+        background: url('{% static "assets/img/sleep_user_login_1773590133663.png" %}') center center / cover no-repeat !important;
+        opacity: 0.25 !important;
+    }
+</style>
+<div class="content d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="glass-card" style="width: 100%; max-width: 500px;">
+
+        <!-- Login Page Image -->
+        <div style="text-align: center; margin-bottom: 22px;">
+            <img src="/media/OIP.webp"
+                 alt="Sleep Disorder Login"
+                 style="width: 100%; max-width: 380px; height: 180px; object-fit: cover;
+                        border-radius: 14px;
+                        border: 1px solid rgba(0, 243, 255, 0.2);
+                        box-shadow: 0 0 25px rgba(0, 243, 255, 0.12), 0 10px 30px rgba(0,0,0,0.45);
+                        filter: brightness(0.92) saturate(0.9);"
+                 onerror="this.style.display='none'">
+        </div>
+
+        <h2 class="text-center page-title"><i class="fa-solid fa-user-lock"></i> User Login</h2>
+        
+        <div id="message-container">
+            {% for m in messages %}
+                <div class="alert alert-warning" style="background: rgba(255,165,0,0.2); border: 1px solid orange; color: #ffe6cc; margin-bottom: 15px;">
+                    <i class="fa-solid fa-circle-exclamation"></i> {{ m.message }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <form id="loginForm" method="post">
+            {% csrf_token %}
+            <div class="form-group mb-4">
+                <label for="username"><i class="fa-solid fa-user"></i> Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
+            </div>
+            <div class="form-group mb-4">
+                <label for="pwd"><i class="fa-solid fa-lock"></i> Password</label>
+                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block w-100 mt-4"><i class="fa-solid fa-right-to-bracket"></i> Start Session</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function removeMessages() {
+        const messageContainer = document.getElementById('message-container');
+        if (messageContainer) {
+            setTimeout(() => { messageContainer.innerHTML = ''; }, 4000);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', (event) => { removeMessages(); });
+</script>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends 'users/userhomepage.html' %}
+{% block contents %}
+{% load static %}
+
+<style>
+    .content {
+        min-height: 100vh;
+        background: linear-gradient(rgba(1, 1, 21, 0.78), rgba(2, 2, 52, 0.88)),
+                    url('{% static "assets/img/sleep_models_1773590906311.png" %}') center center / cover no-repeat fixed;
+        background-attachment: fixed;
+        padding: 40px 15px;
+        margin: 0;
+    }
+
+    .glass-card {
+        background: rgba(8, 12, 30, 0.78);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 255, 170, 0.18);
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        padding: 50px 30px;
+        width: 100%;
+        max-width: none;
+        margin: 0 auto;
+    }
+
+    .page-title {
+        font-size: 3.2rem;
+        margin-bottom: 2.5rem;
+        text-align: center;
+    }
+
+    h4 {
+        font-size: 2.1rem;
+        margin: 3rem 0 1.5rem;
+    }
+
+    h5 {
+        font-size: 1.8rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .accuracy-box {
+        background: rgba(0, 255, 170, 0.09);
+        border: 1px solid rgba(0, 255, 170, 0.28);
+        border-radius: 14px;
+        padding: 30px;
+        font-size: 1.45rem;
+        font-family: monospace;
+        color: #e8ffe8;
+        margin-bottom: 2.5rem;
+    }
+
+    pre {
+        font-size: 1.25rem;
+        padding: 30px !important;
+        border-radius: 14px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-x: auto;
+        max-height: 600px;
+        line-height: 1.6;
+    }
+
+    .mb-3 {
+        margin-bottom: 3rem !important;
+    }
+
+    @media (max-width: 768px) {
+        .glass-card {
+            padding: 35px 20px;
+        }
+        .page-title {
+            font-size: 2.6rem;
+        }
+        h4 { font-size: 1.9rem; }
+        pre { font-size: 1.1rem; padding: 20px !important; }
+    }
+</style>
+
+<div class="content d-flex justify-content-center align-items-start">
+    <div class="glass-card">
+        <h2 class="text-center page-title">
+            <i class="fa-solid fa-microchip"></i> Model Evaluation Results
+        </h2>
+
+```
+    <div class="mt-5">
+        <h4 style="color: #00ffaa;">
+            <i class="fa-solid fa-square-check"></i> Accuracy Highlights
+        </h4>
+
+        <div class="accuracy-box">
+            <div class="mb-3">
+                Random Forest Accuracy:
+                <b style="color: #00ffaa; font-size: 1.55rem;">{{ accuracy_rf }}</b>
+            </div>
+
+            <div>
+                Decision Tree Accuracy:
+                <b style="color: #00f3ff; font-size: 1.55rem;">{{ accuracy_dt }}</b>
+            </div>
+        </div>
+        
+        <h4 style="color: #00f3ff;">
+            <i class="fa-solid fa-file-invoice-dollar"></i> Classification Reports
+        </h4>
+        
+        <div class="mb-3">
+            <h5 style="color: #00ffaa;">Random Forest Classifier:</h5>
+            <pre style="background: rgba(0,0,0,0.55); color: #00ffaa; border: 1px solid rgba(0, 255, 170, 0.35);">
+```
+
+{{ rf_report }} </pre> </div>
+
+```
+        <div class="mb-3">
+            <h5 style="color: #00f3ff;">Support Vector Classifier (SVC):</h5>
+            <pre style="background: rgba(0,0,0,0.55); color: #00f3ff; border: 1px solid rgba(0, 243, 255, 0.35);">
+```
+
+{{ svc_report }} </pre> </div>
+
+```
+        <div class="mb-3">
+            <h5 style="color: #bc13fe;">K-Nearest Neighbors Classifier (KNN):</h5>
+            <pre style="background: rgba(0,0,0,0.55); color: #bc13fe; border: 1px solid rgba(188, 19, 254, 0.35);">
+```
+
+{{ knn_report }} </pre> </div>
+
+```
+        <div class="mb-3">
+            <h5 style="color: #ff007a;">Decision Tree Classifier:</h5>
+            <pre style="background: rgba(0,0,0,0.55); color: #ff007a; border: 1px solid rgba(255, 0, 122, 0.35);">
+```
+
+{{ dt_report }} </pre> </div> </div> </div>
+
+</div>
+
+{% endblock %}

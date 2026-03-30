@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+<style>
+    .bg-image-overlay {
+        background: url('{% static "assets/img/sleep_admin_login_1773590156123.png" %}') center center / cover no-repeat !important;
+        opacity: 0.25 !important;
+    }
+</style>
+<div class="content d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="glass-card" style="width: 100%; max-width: 500px;">
+
+        <!-- Admin Login Image -->
+        <div style="text-align: center; margin-bottom: 22px;">
+            <img src="/media/bd959d2bb15074b6baada6abc0b6e44d.jpg"
+                 alt="Admin Sleep Disorder"
+                 style="width: 100%; max-width: 380px; height: 180px; object-fit: cover;
+                        border-radius: 14px;
+                        border: 1px solid rgba(188, 19, 254, 0.25);
+                        box-shadow: 0 0 25px rgba(188, 19, 254, 0.12), 0 10px 30px rgba(0,0,0,0.45);
+                        filter: brightness(0.9) saturate(0.85);"
+                 onerror="this.style.display='none'">
+        </div>
+
+        <h2 class="text-center page-title"><i class="fa-solid fa-user-shield"></i> Admin Login</h2>
+        
+        {% if error_message %}
+        <div class="alert alert-danger" style="background: rgba(255,0,0,0.2); border: 1px solid red; color: #ffcccc;">
+            {{ error_message }}
+        </div>
+        {% endif %}
+        
+        <form id="loginForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mb-4">
+                <label><i class="fa-solid fa-user"></i> Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter Admin Username" name="username" required>
+            </div>
+            <div class="form-group mb-4">
+                <label><i class="fa-solid fa-lock"></i> Password</label>
+                <input type="password" class="form-control" id="pwd" placeholder="Enter Password" name="pswd" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block w-100 mt-4"><i class="fa-solid fa-right-to-bracket"></i> Login to Dashboard</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

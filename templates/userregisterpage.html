@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+<style>
+    .bg-image-overlay {
+        background: url('{% static "assets/img/sleep_register_1773590174690.png" %}') center center / cover no-repeat !important;
+        opacity: 0.25 !important;
+    }
+</style>
+<div class="content d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="glass-card" style="width: 100%; max-width: 800px;">
+
+        <!-- Register Page Image -->
+        <div style="text-align: center; margin-bottom: 22px;">
+            <img src="/media/Sleep-Hub-Pic.webp"
+                 alt="Sleep Hub Registration"
+                 style="width: 100%; max-width: 560px; height: 190px; object-fit: cover;
+                        border-radius: 14px;
+                        border: 1px solid rgba(0, 255, 170, 0.2);
+                        box-shadow: 0 0 25px rgba(0, 255, 170, 0.1), 0 10px 30px rgba(0,0,0,0.45);
+                        filter: brightness(0.9) saturate(0.9);"
+                 onerror="this.style.display='none'">
+        </div>
+
+        <h2 class="text-center page-title"><i class="fa-solid fa-user-plus"></i> New User Registration</h2>
+        
+        <div id="message-container">
+            {% for m in messages %}
+                {% if m.tags == 'warning' %}
+                    <div class="alert alert-warning" style="background: rgba(255,170,0,0.2); border: 1px solid #ffaa00; color: #ffeecc; margin-bottom: 15px;">
+                        <i class="fa-solid fa-exclamation-triangle"></i> {{ m.message }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-success" style="background: rgba(0,255,170,0.2); border: 1px solid #00ffaa; color: #ccffee; margin-bottom: 15px;">
+                        <i class="fa-solid fa-check-circle"></i> {{ m.message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+        <form id="registrationForm" method="post">
+            {% csrf_token %}
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label for="name"><i class="fa-regular fa-id-card"></i> Full Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="email"><i class="fa-regular fa-envelope"></i> Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="phone"><i class="fa-solid fa-phone"></i> Phone Number</label>
+                        <input type="text" class="form-control" id="phone" placeholder="Enter phone number" name="phone" required pattern="\d{10}" title="Phone number must be exactly 10 digits">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label for="address"><i class="fa-solid fa-location-dot"></i> Address</label>
+                        <input type="text" class="form-control" id="address" placeholder="Enter address" name="address" required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="username"><i class="fa-solid fa-user"></i> Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Choose a username" name="username" required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="pwd"><i class="fa-solid fa-lock"></i> Password</label>
+                        <input type="password" class="form-control" id="pwd" placeholder="Create a password" name="pswd" required pattern="(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" title="Password must be at least 8 characters long and contain letters, numbers, and special characters.">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block w-100 mt-4"><i class="fa-solid fa-satellite-dish"></i> Register AI Healthcare Account</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function removeMessages() {
+        const messageContainer = document.getElementById('message-container');
+        if(messageContainer) {
+            setTimeout(() => { messageContainer.innerHTML = ''; }, 4000);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', (event) => { removeMessages(); });
+</script>
+{% endblock %}

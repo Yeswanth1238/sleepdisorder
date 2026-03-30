@@ -1,0 +1,134 @@
+ {% extends 'admins/adminbase.html' %}
+{% load static %}
+
+{% block contents %}
+
+<style>
+    .bg-image-overlay {
+        background: url('{% static "assets/img/sleep_admin_home_1773590841105.png" %}') center center / cover no-repeat !important;
+        opacity: 0.25 !important;
+    }
+
+    /* Button Grid for Dashboard */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        padding: 20px 0;
+        margin-top: 40px;
+        animation: fadeInUp 1.2s ease-out;
+    }
+
+    .glow-card-btn {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        background: rgba(16, 20, 38, 0.6);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        color: #fff;
+        text-decoration: none;
+        transition: all 0.4s ease;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .glow-card-btn:hover {
+        transform: translateY(-10px) scale(1.03);
+        border-color: rgba(255, 0, 122, 0.3);
+    }
+
+    .glow-card-btn i {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        color: #aaa;
+        transition: 0.3s;
+    }
+
+    .glow-card-btn:hover i {
+        color: #ff007a;
+        transform: scale(1.15);
+    }
+
+    .glow-card-btn .card-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .glow-card-btn .card-desc {
+        font-size: 0.9rem;
+        color: #aaa;
+        text-align: center;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="content">
+    <div style="text-align:center;margin-bottom:20px;">
+        <h1 style="font-size:3rem;">
+            <i class="fa-solid fa-user-shield" style="color:#ff007a;"></i>
+            Admin Control Center
+        </h1>
+        <p style="color:#aaa;font-size:1.2rem;">
+            Manage Sleep Disorder Classification System
+        </p>
+    </div>
+
+    <div class="dashboard-grid">
+
+        <a href="{% url 'adminhome' %}" class="glow-card-btn">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span class="card-title">Dashboard Home</span>
+            <span class="card-desc">Return to admin portal</span>
+        </a>
+
+        <a href="{% url 'datasetview' %}" class="glow-card-btn">
+            <i class="fa-solid fa-database"></i>
+            <span class="card-title">View Dataset</span>
+            <span class="card-desc">Sleep data records</span>
+        </a>
+
+        <a href="{% url 'modeleval' %}" class="glow-card-btn">
+            <i class="fa-solid fa-microchip"></i>
+            <span class="card-title">Machine Learning</span>
+            <span class="card-desc">Train model</span>
+        </a>
+
+        <a href="{% url 'modelmatrices' %}" class="glow-card-btn">
+            <i class="fa-solid fa-chart-line"></i>
+            <span class="card-title">Algorithm Matrices</span>
+            <span class="card-desc">View results</span>
+        </a>
+
+        <a href="{% url 'modelprediction' %}" class="glow-card-btn">
+            <i class="fa-solid fa-brain"></i>
+            <span class="card-title">Run Prediction</span>
+            <span class="card-desc">Predict sleep disorders</span>
+        </a>
+
+        <a href="{% url 'activateduser' %}" class="glow-card-btn">
+            <i class="fa-solid fa-users"></i>
+            <span class="card-title">Manage Users</span>
+            <span class="card-desc">Activate / Block users</span>
+        </a>
+
+        <a href="{% url 'adminlogout' %}" class="glow-card-btn">
+            <i class="fa-solid fa-power-off"></i>
+            <span class="card-title">Logout</span>
+            <span class="card-desc">Exit admin panel</span>
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}
