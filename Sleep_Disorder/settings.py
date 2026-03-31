@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-27atmk#ynr16mrw8uyl!p3ju)0x(-v*c@3#i8u@c^dq*z2zgfc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['sleepdisorder-mmzw.onrender.com', 'localhost', '127.0.0.1', '*']
+CSRF_TRUSTED_ORIGINS = ['https://sleepdisorder-mmzw.onrender.com']
 
 
 # Application definition
