@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: sleep-disorder-classification
+    env: python
+    plan: free
+    region: ohio
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn Sleep_Disorder.wsgi"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: PYTHON_VERSION_FORCE
+        value: "true"
